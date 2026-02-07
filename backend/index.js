@@ -213,17 +213,7 @@ app.post("/newOrder", async (req, res) => {
     res.status(500).json({ message: "Error saving order" });
   }
 });
-// mongoose
-//   .connect(uri)
-//   .then(() => {
-//     console.log("DB connected");
-//     app.listen(PORT, () => {
-//       console.log(`Server running on port ${PORT}`);
-//     });
-//   })
-//   .catch((err) => {
-//     console.error("DB connection failed", err);
-//   });
+
 app.listen(PORT , () =>{
     console.log("App started!");
     mongoose.connect(uri);
