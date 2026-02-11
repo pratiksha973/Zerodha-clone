@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require("path");
 
 const express = require ("express");
 const mongoose = require('mongoose');
@@ -178,7 +179,9 @@ app.use(bodyParser.json());
 // });
 // res.send("done!");
 // });
-
+app.get("/", (req, res) => {
+  res.send("Backend is running successfully");
+});
 app.get("/allHoldings" , async (req,res) =>{
     try{
     const allHoldings = await HoldingModel.find({});
@@ -213,10 +216,27 @@ app.post("/newOrder", async (req, res) => {
     res.status(500).json({ message: "Error saving order" });
   }
 });
-
-app.listen(PORT , () =>{
-    console.log("App started!");
-    mongoose.connect(uri);
+app.use(
+  express.static(
+    path.join(__dirname, "../dashboard/build")
+  )
+);
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../dashboard/build/index.html")
+  );
+});
+mongoose
+  .connect(uri)
+  .then(() => {
     console.log("DB connected");
-}) ;
+    app.listen(PORT, () => {
+      console.log("App started!");
+    });
+  })
+  .catch((err) => {
+    console.error("DB connection error:", err);
+  });
+
+
 
