@@ -221,11 +221,11 @@ app.post("/newOrder", async (req, res) => {
 //     path.join(__dirname, "../dashboard/build")
 //   )
 // );
-// app.get((req, res) => {
-//   res.sendFile(
-//     path.join(__dirname, "../dashboard/build/index.html")
-//   );
-// });
+app.use((req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../dashboard/build/index.html")
+  );
+});
 mongoose
   .connect(uri)
   .then(() => {
